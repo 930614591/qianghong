@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <title>抢活动</title>
+
+</head>
+<body>
+<div id="app">
+    <form action="" style="width: 200px;">
+        <fieldset>
+            <legend>抢活动1.0：</legend>
+            请输入请求体: <input id="bod" size="70" type="text">
+            <input id="j1" type="button" value="检测请求体"><br/>
+            <div id="timex" style="display:none">
+                <a>请求体通过检测----报名开始时间戳：</a>
+                <input id="time" type="text">
+
+                <br/><a>时间为：</a>
+                <input id="timeq" size="50" type="" value="">
+
+                <!--                <br/><a>修改时间戳：</a>-->
+                <!--                <input id="timext" type="text" value="">-->
+                <!--                <input id="gotime" type="button" value="修改">-->
+            </div>
+            <a id="timee" style="display:none">请求体错误</a>
+            <hr/>
+            <input id="go" style="display:none" type="button" value="开始一万次请求">
+            <input id ="cs" type="text" style="display: none">
+        </fieldset>
+    </form>
+</div>
+
+
+<script>
+    var json1={};
+    var tt = 0;
+    //参数n为休眠时间，单位为毫秒:
+    function sleep(n) {
+        var start = new Date().getTime();
+        //  console.log('休眠前：' + start);
+        while (true) {
+            if (new Date().getTime() - start > n) {
+                break;
+            }
+        }
+        // console.log('休眠后：' + new Date().getTime());
+    }
+    var gotime = "";
+    document.getElementById("j1").onclick = function () {
+        var bod = document.getElementById("bod").value;
+        var t = bod.substring(bod.length - 10)
+
+        document.getElementById("time").value = t;
+        if (Number(t) > 1660000000) {
+            //时间戳合法，显示相关功能
+            gotime = t;
+            document.getElementById("go").style.display = "";
+
+            document.getElementById("timex").style.display = "";
+
+            document.getElementById("timee").style.display = "none";
+            //时间戳转化为普通日期
+            //new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+            document.getElementById("timeq").value = new Date(Number(t) * 1000)
+            
+            
+        } else {
+            //时间戳不合法、报错
+            document.getElementById("timex").style.display = "none";
+            document.getElementById("timee").style.display = "";
+            document.getElementById("go").style.display = "none";
+        }
+        //document.getElementByIdv("time").attribute.value=t;
+
+    }
+    //修改时间戳
+    // document.getElementById("gotime").onclick=function() {
+    //   var  v=document.getElementById("timext").value;
+    //   document.getElementById("timeq").value = new Date(Number(v) * 1000);
+    //   document.getElementById("time").value = v;
+    //   gotime=v;
+    //   console.info(
+    //           gotime
+    //   )
+    // }
+    function go() {
+
+        //发送请求
+        var bod = document.getElementById("bod").value
+
+
+
+            axios.post("http://wisdom.tskjxy.com.cn/wisdomprovider/router?", bod, {
+                headers: "POST /wisdomprovider/router? HTTP/1.1\n" +
+                    "Content-Length: 373\n" +
+                    "Host: wisdom.tskjxy.com.cn\n" +
+                    "Connection: Keep-Alive\n" +
+                    "Accept-Encoding: gzip\n" +
+                    "content-type: application/x-www-form-urlencoded;charset=utf8"
+            }).then(function (response) {
+
+				json1=JSON.stringify(response.data)
+				
+				
+                
+            })
+
+        }
+    //模拟提交事件
+    document.getElementById("go").onclick = function () {
+
+        var d='';
+        while (tt<10000) {
+            sleep(100)
+        go();
+            if(json1.toString().substring(9,11)=="0"){
+				document.getElementById("cs").style.display = "";
+                document.getElementById("cs").value=tt.toString()+"次成功";
+                break;
+            }else{
+				document.getElementById("cs").style.display = "";
+				document.getElementById("cs").value=tt.toString()+"次未成功";
+			}
+			console.info(
+			    tt
+				
+				
+			)
+            tt=tt+1
+
+        }
+		
+
+    }
+
+
+</script>
+</body>
+</html>

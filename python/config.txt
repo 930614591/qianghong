@@ -1,0 +1,1 @@
+anonymousId=53e9c2e2-36cf-466a-9be0-b06e13e28914&method=wisdom.extra.activity.signUpPersonalInit&roleId=4ecbdeeb-5981-44d8-b410-c5e0adb2a828&format=json&sign=60A071A606AA05EEFA6720B1920D703F8AF3C184&tenantCode=tskjxy&userId=53e9c2e2-36cf-466a-9be0-b06e13e28914&deviceId=218d5804335dede9&v=2.0&appKey=00000001&taskId=355da44a-5b22-4391-a936-eae7de0863ad&timestamp=1663134937
